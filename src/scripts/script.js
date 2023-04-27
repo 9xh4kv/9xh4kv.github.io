@@ -1,22 +1,29 @@
-/* Get the header element*/
 const header = document.querySelector('.header');
-
-/* Get the banner element*/
 const banner = document.querySelector('.banner');
-
-/* Get the height of the banner element*/
 const bannerHeight = banner.offsetHeight;
+const logo = document.querySelector('.logo'); // add this line
 
-/* Add an event listener to the window object that will be triggered*/
 window.addEventListener('scroll', function() {
-    /* Check the current scroll position*/
     if (window.pageYOffset > bannerHeight) {
-        /* Apply styles for scrolled state*/
         header.classList.add('header-scrolled');
         logo.style.display = 'block';
     } else {
-        /* Apply styles for default state*/
         header.classList.remove('header-scrolled');
         logo.style.display = 'none';
     }
+});
+
+const navLinks = document.querySelectorAll('.nav-list li');
+const mainContent = document.querySelector('.main-content');
+
+navLinks.forEach(link => {
+    link.addEventListener('click', function() {
+        const page = this.getAttribute('data-page');
+        const fileName = `${page}.html`;
+        fetch(fileName)
+            .then(response => response.text())
+            .then(data => {
+                mainContent.innerHTML = data;
+            });
+    });
 });
